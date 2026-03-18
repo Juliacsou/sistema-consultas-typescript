@@ -113,6 +113,47 @@ Status: ${consulta.status}
 `;
 }
 
+function alterarStatusConsulta(
+  consulta: Consulta,
+  novoStatus: StatusConsulta
+): Consulta | null {
+  if (consulta.status === "realizada" && novoStatus === "cancelada") {
+    return null;
+  }
+
+  return {
+    ...consulta,
+    status: novoStatus,
+  };
+}
+
+//ATIVIDADE 1
+function listarConsultasPorStatus(
+  consultas: Consulta[],
+  status: StatusConsulta
+): Consulta[] {
+  return consultas.filter((consulta) => consulta.status === status);
+}
+
+//ATIVIDADE 2
+function listarConsultasFuturas(consultas: Consulta[]): Consulta[] {
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0); // Zera horas para comparar apenas a data
+  return consultas.filter((consulta) => consulta.data >= hoje);
+}
+
+//ATIVIDADE 3
+const consultas: Consulta[] = [];
+
+//ATIVIDADE 4
+function calcularFaturamento(consultas: Consulta[]): number {
+  return consultas
+    .filter((consulta) => consulta.status === "realizada")
+    .reduce((total, consulta) => total + consulta.valor, 0);
+}
+
+
+
 const consulta1 = criarConsulta(
   1,
   medico1,
@@ -120,7 +161,47 @@ const consulta1 = criarConsulta(
   new Date(),
   350
 );
-const consultaConfirmada = confirmarConsulta(consulta1);
-console.log("=== CONSULTA CONFIRMADA ===");
-console.log(exibirConsulta(consultaConfirmada));
 
+const consulta2 = criarConsulta(
+  2,
+  medico2,
+  paciente2,
+  new Date("2026-03-20"),
+  500
+);
+
+const consulta3 = criarConsulta(
+  3,
+  medico3,
+  paciente3,
+  new Date("2026-03-25"),
+  280
+);
+
+const consulta4 = criarConsulta(
+  4,
+  medico1,
+  paciente2,
+  new Date("2026-04-02"),
+  420
+);
+
+const consulta5 = criarConsulta(
+  5,
+  medico2,
+  paciente1,
+  new Date("2026-04-10"),
+  610
+);
+
+
+const consulta1Alterada = alterarStatusConsulta(consulta1, "confirmada");
+
+if (consulta1Alterada) consultas.push(consulta1Alterada);
+consultas.push(consulta2, consulta3, consulta4, consulta5);
+
+// EXIBIÇÃO
+console.log("=== TODAS AS CONSULTAS ===");
+consultas.forEach((consulta) => {
+  console.log(exibirConsulta(consulta));
+});
