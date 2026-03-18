@@ -123,8 +123,25 @@ if (consulta1Alterada)
     consultas.push(consulta1Alterada);
 consultas.push(consulta2, consulta3, consulta4, consulta5);
 // EXIBIÇÃO
+//Ex 1
+console.log("=== CONSULTAS CONFIRMADAS ===");
+const confirmadas = listarConsultasPorStatus(consultas, "confirmada");
+confirmadas.forEach((c) => console.log(exibirConsulta(c)));
+//Ex 2
+console.log("=== CONSULTAS FUTURAS ===");
+const futuras = listarConsultasFuturas(consultas);
+futuras.forEach((c) => console.log(exibirConsulta(c)));
+//Ex 3
 console.log("=== TODAS AS CONSULTAS ===");
 consultas.forEach((consulta) => {
     console.log(exibirConsulta(consulta));
 });
+//Ex4
+calcularFaturamento(consultas);
+console.log("=== FATURAMENTO TOTAL ===");
+const faturamento = calcularFaturamento(consultas);
+console.log(faturamento.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+}));
 export {};
